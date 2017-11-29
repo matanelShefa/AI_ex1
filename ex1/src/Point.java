@@ -4,8 +4,8 @@
 public class Point
 {
 	// Members
-	private static int m_xVal;
-	private static int m_yVal;
+	private final int m_xVal;
+	private final int m_yVal;
 
 	// Constructor
 	public Point(int xVal, int yVal)

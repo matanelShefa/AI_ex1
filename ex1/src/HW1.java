@@ -7,5 +7,7 @@ public class HW1
 	{
 		System.out.println("Hello world!");
 		System.out.println(new Point(5, 4));
+		Map map= new Map(3);
+		System.out.println(map);
 	}
 }
