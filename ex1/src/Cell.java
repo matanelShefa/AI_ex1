@@ -3,11 +3,18 @@
  */
 public class Cell
 {
+	public enum Type { START, GOAL, ROAD, DESERT, HILL, WATER }
+
 	// Members
 	private Point m_point;
+	private Type m_type;
 
 	// Constructor
-	public Cell(Point point) { m_point = point; }
+	public Cell(Point point, Type type)
+	{
+		m_point = point;
+		m_type = type;
+	}
 
 	// Print the cell.
 	public String toString() { return "(" + getXVal() + "," + getYVal() + ")"; }
@@ -20,4 +27,7 @@ public class Cell
 
 	// Getter
 	public int getYVal() { return m_point.getYVal(); }
+
+	// Getter
+	public Type getType() { return m_type; }
 }

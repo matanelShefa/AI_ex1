@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Matanel on 29/11/2017.
@@ -19,7 +18,7 @@ public class Map
 		{
 			for (int j = 0; j < size; j++)
 			{
-				cellsList.add(new Cell(new Point(i, j)));
+				cellsList.add(new Cell(new Point(i, j), Cell.Type.ROAD));
 			}
 		}
 	}
@@ -38,5 +37,4 @@ public class Map
 		}
 		return mapToPrint;
 	}
-
 }
