@@ -8,7 +8,6 @@ import java.io.IOException;
 public class Parser
 {
 	// Members
-	private String m_inputFile;
 	private int m_size;
 	private String m_algorithm;
 	private String m_typeString;
@@ -17,45 +16,23 @@ public class Parser
 	Parser(String inputFile)
 	{
 		m_typeString = new String();
-		m_inputFile = inputFile;
-		try (BufferedReader reader = new BufferedReader(new FileReader(m_inputFile)))
+		try (BufferedReader reader = new BufferedReader(new FileReader(inputFile)))
 		{
 			String fileCurrentLine;
 			m_algorithm = reader.readLine();
 			m_size = Integer.parseInt(reader.readLine());
 
-			int i = 0;
 			while ((fileCurrentLine = reader.readLine()) != null)
 			{
-				System.out.println(fileCurrentLine);
-
 				for (int j = 0; j < m_size; j++)
 				{
 					m_typeString += fileCurrentLine.charAt(j);
 				}
-
-				i++;
 			}
 
 		} catch (IOException e)
 		{
 			e.printStackTrace();
-		}
-	}
-
-	public String parseLine()
-	{
-		String fileCurrentLine;
-		try (BufferedReader reader = new BufferedReader(new FileReader(m_inputFile)))
-		{
-			fileCurrentLine = reader.readLine();
-			System.out.println("fileCurrentLine: " + fileCurrentLine);
-			return fileCurrentLine;
-			//return reader.readLine();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-			return "EXCEPTION!";
 		}
 	}
 

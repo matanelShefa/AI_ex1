@@ -8,25 +8,23 @@ public class Map
 {
 	// Members
 	private int m_size;
-	private Parser m_parser;
 	private String m_algorithm;
 	private ArrayList<Cell> m_cellsList;
-	private String m_typeString;
 
 	// Constructor
 	Map(String inputFile)
 	{
-		m_parser = new Parser(inputFile);
-		m_algorithm = m_parser.getAlgorithm();
-		m_size = m_parser.getSize();
-		m_typeString = m_parser.getTypeString();
+		Parser parser = new Parser(inputFile);
+		m_algorithm = parser.getAlgorithm();
+		m_size = parser.getSize();
+		String typeString = parser.getTypeString();
 
 		m_cellsList = new ArrayList<Cell>();
 		for (int i = 0; i < m_size; i++)
 		{
 			for (int j = 0; j < m_size; j++)
 			{
-				m_cellsList.add(new Cell(new Point(i, j), m_typeString.charAt((i * m_size) + j)));
+				m_cellsList.add(new Cell(new Point(i, j), typeString.charAt((i * m_size) + j)));
 			}
 		}
 	}
@@ -41,6 +39,7 @@ public class Map
 	public String toString()
 	{
 		String mapToPrint = new String();
+		mapToPrint += "Algorithm : " + m_algorithm + "\n" + "Size : " + m_size + "\n";
 		for (int i = 0; i < m_size; i++)
 		{
 			for (int j = 0; j < m_size; j++)
