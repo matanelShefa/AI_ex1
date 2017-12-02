@@ -7,33 +7,64 @@ import java.io.IOException;
  */
 public class Parser
 {
-	// Data members
-	//TODO - replace the file name to semothing resonable.
-	private static final String m_fileName = "C:\\Users\\User\\Documents\\מתנאל\\בינה מלאכותית\\תרגילים\\input.txt";
+	// Members
+	private String m_inputFile;
 	private int m_size;
+	private String m_algorithm;
+	private String m_typeString;
 
 	// Constructor
-	Parser() { };
-
-	// Parse the input
-	void parse()
+	Parser(String inputFile)
 	{
-		try (BufferedReader reader = new BufferedReader(new FileReader(m_fileName))) {
-
+		m_typeString = new String();
+		m_inputFile = inputFile;
+		try (BufferedReader reader = new BufferedReader(new FileReader(m_inputFile)))
+		{
 			String fileCurrentLine;
-
-			// Get the algorithm and the
-			String algorithm = reader.readLine();
+			m_algorithm = reader.readLine();
 			m_size = Integer.parseInt(reader.readLine());
-			System.out.println("m_size = " + m_size);
-			Map map = new Map(m_size);
 
-			while ((fileCurrentLine = reader.readLine()) != null) {
+			int i = 0;
+			while ((fileCurrentLine = reader.readLine()) != null)
+			{
 				System.out.println(fileCurrentLine);
+
+				for (int j = 0; j < m_size; j++)
+				{
+					m_typeString += fileCurrentLine.charAt(j);
+				}
+
+				i++;
 			}
 
-		} catch (IOException e) {
+		} catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
+
+	public String parseLine()
+	{
+		String fileCurrentLine;
+		try (BufferedReader reader = new BufferedReader(new FileReader(m_inputFile)))
+		{
+			fileCurrentLine = reader.readLine();
+			System.out.println("fileCurrentLine: " + fileCurrentLine);
+			return fileCurrentLine;
+			//return reader.readLine();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+			return "EXCEPTION!";
+		}
+	}
+
+	// Getter
+	public String getTypeString() { return m_typeString; }
+
+	// Getter
+	public String getAlgorithm() { return m_algorithm; }
+
+	// Getter
+	public int getSize() { return m_size; }
 }

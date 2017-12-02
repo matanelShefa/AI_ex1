@@ -3,24 +3,38 @@ import java.util.ArrayList;
 /**
  * Created by Matanel on 29/11/2017.
  */
+
 public class Map
 {
 	// Members
 	private int m_size;
-	private ArrayList<Cell> cellsList;
+	private Parser m_parser;
+	private String m_algorithm;
+	private ArrayList<Cell> m_cellsList;
+	private String m_typeString;
 
 	// Constructor
-	Map(int size)
+	Map(String inputFile)
 	{
-		m_size = size;
-		cellsList = new ArrayList<Cell>();
-		for (int i = 0; i < size; i++)
+		m_parser = new Parser(inputFile);
+		m_algorithm = m_parser.getAlgorithm();
+		m_size = m_parser.getSize();
+		m_typeString = m_parser.getTypeString();
+
+		m_cellsList = new ArrayList<Cell>();
+		for (int i = 0; i < m_size; i++)
 		{
-			for (int j = 0; j < size; j++)
+			for (int j = 0; j < m_size; j++)
 			{
-				cellsList.add(new Cell(new Point(i, j), Cell.Type.ROAD));
+				m_cellsList.add(new Cell(new Point(i, j), m_typeString.charAt((i * m_size) + j)));
 			}
 		}
+	}
+
+	// Getter
+	public Cell getCell(int xVal, int yVal)
+	{
+		return m_cellsList.get((xVal * m_size) + yVal);
 	}
 
 	// Print the map
@@ -31,7 +45,7 @@ public class Map
 		{
 			for (int j = 0; j < m_size; j++)
 			{
-				mapToPrint += cellsList.get(j + (m_size * i)).toString();
+				mapToPrint += m_cellsList.get(j + (m_size * i)).toString();
 			}
 			mapToPrint += '\n';
 		}

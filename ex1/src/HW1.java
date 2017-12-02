@@ -5,9 +5,9 @@ public class HW1
 {
 	public static void main(String [ ] args)
 	{
-		System.out.println(new Point(5, 4));
-		System.out.println(new Map(3));
-		Parser parser = new Parser();
-		parser.parse();
+		// Create the map from the input.
+		String inputFile = args[0];
+		Map map = new Map(inputFile);
+		System.out.println(map);
 	}
 }

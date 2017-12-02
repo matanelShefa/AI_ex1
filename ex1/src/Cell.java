@@ -7,17 +7,17 @@ public class Cell
 
 	// Members
 	private Point m_point;
-	private Type m_type;
+	private char m_type;
 
 	// Constructor
-	public Cell(Point point, Type type)
+	public Cell(Point point, char type)
 	{
 		m_point = point;
 		m_type = type;
 	}
 
 	// Print the cell.
-	public String toString() { return "(" + getXVal() + "," + getYVal() + ")"; }
+	public String toString() { return "(" + getXVal() + "," + m_type + "," + getYVal() + ")"; }
 
 	// Getter
 	Point getPoint() { return m_point; }
@@ -29,5 +29,8 @@ public class Cell
 	public int getYVal() { return m_point.getYVal(); }
 
 	// Getter
-	public Type getType() { return m_type; }
+	public char getType() { return m_type; }
+
+	// Setter
+	public void setType(char type) { m_type = type; }
 }
