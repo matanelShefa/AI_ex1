@@ -1,13 +1,17 @@
+import java.util.ArrayList;
+
 /**
  * Created by Matanel on 28/11/2017.
  */
 public class Cell
 {
-	public enum Type { START, GOAL, ROAD, DESERT, HILL, WATER }
+	public enum Type { START, GOAL, ROAD, DESERT, HILL, WATER } //TODO REMOVE?
 
 	// Members
 	private Point m_point;
 	private char m_type;
+
+	private ArrayList<Cell> m_childrenList;
 
 	// Constructor
 	public Cell(Point point, char type)
@@ -31,6 +35,12 @@ public class Cell
 	// Getter
 	public char getType() { return m_type; }
 
+	// Getter
+	public ArrayList<Cell> getChildrenList() { return m_childrenList; }
+
 	// Setter
 	public void setType(char type) { m_type = type; }
+
+	// Setter
+	public void setChildrenList(ArrayList<Cell> childrenList) { m_childrenList = childrenList; }
 }
