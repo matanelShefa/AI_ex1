@@ -21,7 +21,7 @@ public class Map
 		String typeString = parser.getTypeString();
 
 		// Create the map.
-		m_cellsList = new ArrayList<Cell>();
+		m_cellsList = new ArrayList<>();
 		for (int i = 0; i < m_size; i++)
 		{
 			for (int j = 0; j < m_size; j++)
@@ -31,7 +31,6 @@ public class Map
 		}
 
 		// Generate the children lists.
-		ArrayList<Cell> childrenList;
 		for (int i = 0; i < m_size; i++)
 		{
 			for (int j = 0; j < m_size; j++)
@@ -89,35 +88,19 @@ public class Map
 		}
 		if ((fromX - toX == 1) && (fromY - toY == 1))
 		{
-			if ((getCell(fromX - 1, fromY).getType() != 'W') && (getCell(fromX, fromY - 1).getType() != 'W'))
-			{
-				return true;
-			}
-			return false;
+			return (getCell(fromX - 1, fromY).getType() != 'W') && (getCell(fromX, fromY - 1).getType() != 'W');
 		}
 		if ((fromX - toX == 1) && (fromY - toY == -1))
 		{
-			if ((getCell(fromX - 1, fromY).getType() != 'W') && (getCell(fromX, fromY + 1).getType() != 'W'))
-			{
-				return true;
-			}
-			return false;
+			return (getCell(fromX - 1, fromY).getType() != 'W') && (getCell(fromX, fromY + 1).getType() != 'W');
 		}
 		if ((fromX - toX == -1) && (fromY - toY == -1))
 		{
-			if ((getCell(fromX + 1, fromY).getType() != 'W') && (getCell(fromX, fromY + 1).getType() != 'W'))
-			{
-				return true;
-			}
-			return false;
+			return (getCell(fromX + 1, fromY).getType() != 'W') && (getCell(fromX, fromY + 1).getType() != 'W');
 		}
 		if ((fromX - toX == -1) && (fromY - toY == 1))
 		{
-			if ((getCell(fromX + 1, fromY).getType() != 'W') && (getCell(fromX, fromY - 1).getType() != 'W'))
-			{
-				return true;
-			}
-			return false;
+			return (getCell(fromX + 1, fromY).getType() != 'W') && (getCell(fromX, fromY - 1).getType() != 'W');
 		}
 		return true;
 	}
@@ -141,8 +124,7 @@ public class Map
 	// Print the map
 	public String toString()
 	{
-		String mapToPrint = new String();
-		mapToPrint += "Algorithm : " + m_algorithm + "\n" + "Size : " + m_size + "\n";
+		String mapToPrint = "Algorithm : " + m_algorithm + "\n" + "Size : " + m_size + "\n";
 		for (int i = 0; i < m_size; i++)
 		{
 			for (int j = 0; j < m_size; j++)

@@ -10,29 +10,26 @@ public class IDS
 	private static final char GOAL = 'G';
 
 	// Members
-	private int m_size;
 	private int m_maxDepth;
-	private int m_pathCost;
 	private Cell m_root;
-	private String m_path;
+	private String m_solution;
 	private Map m_map;
 	private HashSet<Cell> m_seenList;
-	private String m_solution;
+
 
 
 	// Constructor
 	IDS(Map map)
 	{
 		m_map = map;
-		m_size = map.getSize();
-		m_maxDepth = (m_size * m_size);
+		m_maxDepth = (map.getSize() * map.getSize());
 		m_root = map.getCell(0, 0);
 		m_seenList = new HashSet<>();
 	}
 
 	Cell idsSearch()
 	{
-		Cell goal = null;
+		Cell goal;
 		for (int currentDepth = 0; currentDepth < m_maxDepth; currentDepth++)
 		{
 			System.out.println("========== Depth: " + currentDepth + " ==========");
@@ -45,10 +42,10 @@ public class IDS
 		return null;
 	}
 
-	Cell ids(Cell node, int depth)
+	private Cell ids(Cell node, int depth)
 	{
 		String currentSolution;
-		Cell goal = null;
+		Cell goal;
 		if (depth == 0 && node.getType() == GOAL)
 		{
 			return node;
