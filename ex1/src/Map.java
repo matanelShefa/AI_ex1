@@ -37,8 +37,9 @@ public class Map
 			for (int j = 0; j < m_size; j++)
 			{
 				getCell(i, j).setChildrenList(addChildrenList(getCell(i, j)));
-				System.out.println("Cell : " + getCell(i, j));
-				System.out.println("List : " + getCell(i, j).getChildrenList());
+				// TODO - REMOVE!!
+				//System.out.println("Cell : " + getCell(i, j));
+				//System.out.println("List : " + getCell(i, j).getChildrenList());
 			}
 		}
 	}
@@ -57,6 +58,68 @@ public class Map
 			}
 		}
 		return childrenList;
+	}
+
+	// Search for the goal, use the algorithm the input asked to.
+	public void search()
+	{
+		if (m_algorithm.equals("IDS"))
+		{
+			IDS searcher = new IDS(this);
+			System.out.println(searcher.idsSearch());
+		}
+		else
+		{
+			//AStar searcher = new AStar(this);
+			//System.out.println(searcher.idsSearch());
+		}
+
+	}
+
+	public boolean isValidMove(Cell from, Cell to)
+	{
+		int fromX = from.getXVal();
+		int fromY = from.getYVal();
+		int toX = to.getXVal();
+		int toY = to.getYVal();
+
+		if (to.getType() == 'W')
+		{
+			return false;
+		}
+		if ((fromX - toX == 1) && (fromY - toY == 1))
+		{
+			if ((getCell(fromX - 1, fromY).getType() != 'W') && (getCell(fromX, fromY - 1).getType() != 'W'))
+			{
+				return true;
+			}
+			return false;
+		}
+		if ((fromX - toX == 1) && (fromY - toY == -1))
+		{
+			if ((getCell(fromX - 1, fromY).getType() != 'W') && (getCell(fromX, fromY + 1).getType() != 'W'))
+			{
+				return true;
+			}
+			return false;
+		}
+		if ((fromX - toX == -1) && (fromY - toY == -1))
+		{
+			if ((getCell(fromX + 1, fromY).getType() != 'W') && (getCell(fromX, fromY + 1).getType() != 'W'))
+			{
+				return true;
+			}
+			return false;
+		}
+		if ((fromX - toX == -1) && (fromY - toY == 1))
+		{
+			if ((getCell(fromX + 1, fromY).getType() != 'W') && (getCell(fromX, fromY - 1).getType() != 'W'))
+			{
+				return true;
+			}
+			return false;
+		}
+		return true;
 	}
 
 	// Getter

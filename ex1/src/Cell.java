@@ -5,12 +5,15 @@ import java.util.ArrayList;
  */
 public class Cell
 {
-	public enum Type { START, GOAL, ROAD, DESERT, HILL, WATER } //TODO REMOVE?
+	private static final char ROAD = 'R';
+	private static final char GOAL = 'G';
+	private static final char DESERT = 'D';
+	private static final char HILL = 'H';
 
 	// Members
 	private Point m_point;
 	private char m_type;
-
+	private int m_cost;
 	private ArrayList<Cell> m_childrenList;
 
 	// Constructor
@@ -18,6 +21,21 @@ public class Cell
 	{
 		m_point = point;
 		m_type = type;
+
+		switch (m_type)
+		{
+			case ROAD:
+				m_cost = 1;
+				break;
+			case DESERT:
+				m_cost = 3;
+				break;
+			case HILL:
+				m_cost = 10;
+				break;
+			default:
+				m_cost = 0;
+		}
 	}
 
 	// Print the cell.
@@ -37,6 +55,9 @@ public class Cell
 
 	// Getter
 	public ArrayList<Cell> getChildrenList() { return m_childrenList; }
+
+	// Getter
+	public int getCost() { return m_cost; }
 
 	// Setter
 	public void setType(char type) { m_type = type; }

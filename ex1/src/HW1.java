@@ -9,5 +9,6 @@ public class HW1
 		String inputFile = args[0];
 		Map map = new Map(inputFile);
 		System.out.println(map);
+		map.search();
 	}
 }

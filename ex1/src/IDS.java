@@ -1,29 +1,42 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by Matanel on 03/12/2017.
  */
 public class IDS
 {
+	// Finals
+	private static final char GOAL = 'G';
+
 	// Members
-	private ArrayList<Cell> m_cellsList;
 	private int m_size;
 	private int m_maxDepth;
+	private int m_pathCost;
+	private Cell m_root;
+	private String m_path;
+	private Map m_map;
+	private HashSet<Cell> m_seenList;
+	private String m_solution;
+
 
 	// Constructor
 	IDS(Map map)
 	{
-		m_cellsList = map.getCellsList();
+		m_map = map;
 		m_size = map.getSize();
 		m_maxDepth = (m_size * m_size);
+		m_root = map.getCell(0, 0);
+		m_seenList = new HashSet<>();
 	}
 
-	Cell idsRoot(Cell root)
+	Cell idsSearch()
 	{
 		Cell goal = null;
 		for (int currentDepth = 0; currentDepth < m_maxDepth; currentDepth++)
 		{
-			goal = ids(root, currentDepth);
+			System.out.println("========== Depth: " + currentDepth + " ==========");
+			goal = ids(m_root, currentDepth);
 			if (goal != null)
 			{
 				return goal;
@@ -34,8 +47,9 @@ public class IDS
 
 	Cell ids(Cell node, int depth)
 	{
+		String currentSolution;
 		Cell goal = null;
-		if (depth == 0 && node.getType() == 'G')
+		if (depth == 0 && node.getType() == GOAL)
 		{
 			return node;
 		}
@@ -44,10 +58,21 @@ public class IDS
 			ArrayList<Cell> childrenList = node.getChildrenList();
 			for (Cell child : childrenList)
 			{
-				goal = ids(child, depth - 1);
-				if (goal != null)
+				if ((m_map.isValidMove(node, child)) && (!m_seenList.contains(child)))
 				{
-					return goal;
+					// TODO - REMOVE
+					System.out.println("Depth: " + depth + ", " + node + " ===> " + child);
+					m_seenList.add(child);
+					currentSolution = m_solution;
+					m_solution += " " + child;
+					goal = ids(child, depth - 1);
+					m_seenList.remove(child);
+					if (goal != null)
+					{
+						System.out.println(m_solution);
+						return goal;
+					}
+					m_solution = currentSolution;
 				}
 			}
 		}
