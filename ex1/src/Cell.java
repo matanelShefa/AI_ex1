@@ -5,10 +5,12 @@ import java.util.ArrayList;
  */
 public class Cell
 {
-	private static final char ROAD = 'R';
-	private static final char GOAL = 'G';
-	private static final char DESERT = 'D';
-	private static final char HILL = 'H';
+	public static final char START = 'S';
+	public static final char ROAD = 'R';
+	public static final char GOAL = 'G';
+	public static final char DESERT = 'D';
+	public static final char HILL = 'H';
+	public static final char WATER = 'W';
 
 	// Members
 	private Point m_point;
@@ -36,6 +38,21 @@ public class Cell
 			default:
 				m_cost = 0;
 		}
+/*
+		// Create the children list for the cells.
+			int offsetArray[][] = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1}, { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 } };
+			ArrayList<Cell> childrenList = new ArrayList<>();
+			for (int offset[] : offsetArray)
+			{
+				Cell child = Map.getCell(m_point.getXVal() + offset[0], m_point.getYVal() + offset[1]);
+				if (child != null)
+				{
+					childrenList.add(child);
+				}
+			}
+			m_childrenList =  childrenList;
+		}
+		*/
 	}
 
 	// Print the cell.
