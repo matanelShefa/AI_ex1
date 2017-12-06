@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by Matanel on 29/11/2017.
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 public class Map
 {
 	public static final String IDS = "IDS";
+	private static final int offsetArray[][] = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1}, { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 } };
 
 	// Members
 	private int m_size;
@@ -25,7 +27,6 @@ public class Map
 		m_size = parser.getSize();
 		m_typeString = parser.getTypeString();
 
-		//TODO - REMOVE THIS PART OF CODE! NO MAP AT ALL!
 		// Create the map.
 		m_cellsList = new ArrayList<>();
 		for (int i = 0; i < m_size; i++)
@@ -50,11 +51,12 @@ public class Map
 	// Create the children list for the cells.
 	public ArrayList<Cell> addChildrenList(Cell cell)
 	{
-		int offsetArray[][] = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1}, { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 } };
 		ArrayList<Cell> childrenList = new ArrayList<>();
+		Cell child;
+
 		for (int offset[] : offsetArray)
 		{
-			Cell child = getCell(cell.getXVal() + offset[0], cell.getYVal() + offset[1]);
+			child = getCell(cell.getXVal() + offset[0], cell.getYVal() + offset[1]);
 			if (child != null)
 			{
 				childrenList.add(child);
@@ -80,30 +82,73 @@ public class Map
 		{
 			return false;
 		}
-		if ((fromX - toX == 1) && (fromY - toY == 1))
+
+		if ((fromX - toX == 1))
 		{
-			return (getCell(fromX - 1, fromY).getType() != Cell.WATER) &&
-					(getCell(fromX, fromY - 1).getType() != Cell.WATER);
+			if (fromY - toY == 1)
+			{
+				return (getType(fromX - 1, fromY) != Cell.WATER) && (getType(fromX, fromY - 1) != Cell.WATER);
+			}
+			else if (fromY - toY == -1)
+			{
+				return (getType(fromX - 1, fromY) != Cell.WATER) && (getType(fromX, fromY + 1) != Cell.WATER);
+			}
 		}
-		if ((fromX - toX == 1) && (fromY - toY == -1))
+
+		if (fromX - toX == -1)
 		{
-			return (getCell(fromX - 1, fromY).getType() != Cell.WATER) &&
-					(getCell(fromX, fromY + 1).getType() != Cell.WATER);
+			if (fromY - toY == -1)
+			{
+				return (getType(fromX + 1, fromY) != Cell.WATER) && (getType(fromX, fromY + 1) != Cell.WATER);
+			}
+			else if ((fromY - toY == 1))
+			{
+				return (getType(fromX + 1, fromY) != Cell.WATER) && (getType(fromX, fromY - 1) != Cell.WATER);
+			}
 		}
-		if ((fromX - toX == -1) && (fromY - toY == -1))
+
+/*		if ((fromX - toX == 1))
 		{
-			return (getCell(fromX + 1, fromY).getType() != Cell.WATER) &&
-					(getCell(fromX, fromY + 1).getType() != Cell.WATER);
+			if (fromY - toY == 1)
+			{
+				return (getCell(fromX - 1, fromY).getType() != Cell.WATER) &&
+						(getCell(fromX, fromY - 1).getType() != Cell.WATER);
+			}
+			else if (fromY - toY == -1)
+			{
+				return (getCell(fromX - 1, fromY).getType() != Cell.WATER) &&
+						(getCell(fromX, fromY + 1).getType() != Cell.WATER);
+			}
 		}
-		if ((fromX - toX == -1) && (fromY - toY == 1))
+
+		if (fromX - toX == -1)
 		{
-			return (getCell(fromX + 1, fromY).getType() != Cell.WATER) &&
-					(getCell(fromX, fromY - 1).getType() != Cell.WATER);
+			if (fromY - toY == -1)
+			{
+				return (getCell(fromX + 1, fromY).getType() != Cell.WATER) &&
+						(getCell(fromX, fromY + 1).getType() != Cell.WATER);
+			}
+			else if ((fromY - toY == 1))
+			{
+				return (getCell(fromX + 1, fromY).getType() != Cell.WATER) &&
+						(getCell(fromX, fromY - 1).getType() != Cell.WATER);
+			}
 		}
+*/
 		return true;
 	}
 
 	// Getter
+	public char getType(int xVal, int yVal)
+	{
+		if ((xVal < 0) || (yVal < 0) || (xVal >= m_size) || (yVal >= m_size))
+		{
+			return Cell.UNKNOWN_TYPE;
+		}
+		return m_cellsList.get((xVal * m_size) + yVal).getType();
+	}
+
+	// Generating a new cell according to it's type & values.
 	public Cell getCell(int xVal, int yVal)
 	{
 		if ((xVal < 0) || (yVal < 0) || (xVal >= m_size) || (yVal >= m_size))

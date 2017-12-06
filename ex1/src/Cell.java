@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by Matanel on 28/11/2017.
@@ -11,11 +12,14 @@ public class Cell
 	public static final char DESERT = 'D';
 	public static final char HILL = 'H';
 	public static final char WATER = 'W';
+	public static final char UNKNOWN_TYPE = ' ';
 
 	// Members
 	private Point m_point;
 	private char m_type;
 	private int m_cost;
+	private Cell m_parent;
+	private int m_heuristic;
 	private ArrayList<Cell> m_childrenList;
 
 	// Constructor
@@ -38,21 +42,18 @@ public class Cell
 			default:
 				m_cost = 0;
 		}
-/*
-		// Create the children list for the cells.
-			int offsetArray[][] = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1}, { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 } };
-			ArrayList<Cell> childrenList = new ArrayList<>();
-			for (int offset[] : offsetArray)
-			{
-				Cell child = Map.getCell(m_point.getXVal() + offset[0], m_point.getYVal() + offset[1]);
-				if (child != null)
-				{
-					childrenList.add(child);
-				}
-			}
-			m_childrenList =  childrenList;
-		}
-		*/
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return m_point.getXVal() * 17 + m_point.getYVal();
+	}
+
+	public boolean equals(Object other)
+	{
+		return (((Cell)other).getXVal() == m_point.getXVal()) &&
+				(((Cell)other).getYVal() == m_point.getYVal());
 	}
 
 	// Print the cell.
@@ -81,4 +82,13 @@ public class Cell
 
 	// Setter
 	public void setChildrenList(ArrayList<Cell> childrenList) { m_childrenList = childrenList; }
+
+	// Setter
+	public void setCost(int cost) { m_cost = cost; }
+
+	//Setter
+	public void setParent(Cell parent) { m_parent = parent; }
+
+	// Setter
+	public void setHeuristic(int heuristicValue) { m_heuristic = heuristicValue; }
 }

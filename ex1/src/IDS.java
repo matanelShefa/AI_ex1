@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Created by Matanel on 03/12/2017.
@@ -15,7 +16,7 @@ public class IDS extends Searcher
 	private Cell m_root;
 	private String m_solution;
 	private Map m_map;
-	private HashSet<Cell> m_seenList;
+	private HashSet<Cell> m_duplicatesList;
 	private int m_cost;
 
 	// Constructor
@@ -24,7 +25,7 @@ public class IDS extends Searcher
 		m_map = map;
 		m_maxDepth = (map.getSize() * map.getSize());
 		m_root = map.getCell(0, 0);
-		m_seenList = new HashSet<>();
+		m_duplicatesList = new HashSet<>();
 		m_solution = "";
 		m_cost = 0;
 	}
@@ -35,6 +36,8 @@ public class IDS extends Searcher
 		Cell goal;
 		for (int currentDepth = 0; currentDepth < m_maxDepth; currentDepth++)
 		{
+			//TODO - REMOVE!
+			System.out.println("===== Depth: " + currentDepth + " =====");
 			goal = ids(m_root, currentDepth);
 			if (goal != null)
 			{
@@ -59,15 +62,16 @@ public class IDS extends Searcher
 			ArrayList<Cell> childrenList = m_map.addChildrenList(node);
 			for (Cell child : childrenList)
 			{
-				if ((m_map.isValidMove(node, child)) && (!m_seenList.contains(child)))
+				if ((m_map.isValidMove(node, child)) && (!m_duplicatesList.contains(child)))
 				{
-					m_seenList.add(child);
+					//TODO - REMOVE
+					//System.out.println("Depth: " + depth + ", " + node + " ===> " + child);
+					m_duplicatesList.add(child);
 					currentSolution = m_solution;
-					currentCost = m_cost;
 					m_solution += addStep(node, child);
 					m_cost += child.getCost();
 					goal = ids(child, depth - 1);
-					m_seenList.remove(child);
+					m_duplicatesList.remove(child);
 					if (goal != null)
 					{
 						System.out.println(m_solution);
@@ -75,7 +79,7 @@ public class IDS extends Searcher
 						return goal;
 					}
 					m_solution = currentSolution;
-					m_cost = currentCost;
+					m_cost -= child.getCost();
 				}
 			}
 		}

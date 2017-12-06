@@ -6,7 +6,7 @@ import java.io.*;
 public abstract class Searcher implements Algorithm
 {
 	// Finals
-	public String OUTPUT_FILE = "output.txt";
+	private static final String OUTPUT_FILE = "output.txt";
 
 	// Add the current step to the solution string.
 	public String addStep(Cell from, Cell to)
@@ -22,39 +22,25 @@ public abstract class Searcher implements Algorithm
 			step = "-";
 		}
 
-		if ((fromX - toX == 1) && (fromY - toY == 1))
+		if (fromY - toY == 1)
 		{
-			return step + "LU";
+			step += "L";
 		}
-		if ((fromX - toX == 1) && (fromY - toY == 0))
+		else if (fromY - toY == -1)
 		{
-			return step + "U";
+			step += "R";
 		}
-		if ((fromX - toX == 1) && (fromY - toY == -1))
+
+		if (fromX - toX == 1)
 		{
-			return step + "RU";
+			step += "U";
 		}
-		if ((fromX - toX == 0) && (fromY - toY == -1))
+		else if (fromX - toX == -1)
 		{
-			return step + "R";
+			step += "D";
 		}
-		if ((fromX - toX == -1) && (fromY - toY == -1))
-		{
-			return step + "RD";
-		}
-		if ((fromX - toX == -1) && (fromY - toY == 0))
-		{
-			return step + "D";
-		}
-		if ((fromX - toX == -1) && (fromY - toY == 1))
-		{
-			return step + "LD";
-		}
-		if ((fromX - toX == 0) && (fromY - toY == 1))
-		{
-			return step + "L";
-		}
-		return "";
+
+		return step;
 	}
 
 	// Print to a the output file.
