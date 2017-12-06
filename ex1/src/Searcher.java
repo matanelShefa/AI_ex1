@@ -9,7 +9,7 @@ public abstract class Searcher implements Algorithm
 	public String OUTPUT_FILE = "output.txt";
 
 	// Add the current step to the solution string.
-	protected String addStep(Cell from, Cell to)
+	public String addStep(Cell from, Cell to)
 	{
 		int fromX = from.getXVal();
 		int fromY = from.getYVal();
@@ -58,7 +58,7 @@ public abstract class Searcher implements Algorithm
 	}
 
 	// Print to a the output file.
-	protected void printToOutput(String stringToPrint)
+	public void printToOutput(String stringToPrint)
 	{
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(OUTPUT_FILE), "utf-8"))) {

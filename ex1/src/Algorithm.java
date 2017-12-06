@@ -3,6 +3,12 @@
  */
 public interface Algorithm
 {
-	// The search method. Use to search over the goal from the start in the matrix.
+	// The search method. Searches for the goal from the start in the matrix.
 	public void search();
+
+	// Add one step to the solution string.
+	public String addStep(Cell from, Cell to);
+
+	// Print the solution string to the output file.
+	public void printToOutput(String stringToPrint);
 }

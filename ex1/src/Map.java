@@ -11,6 +11,7 @@ public class Map
 	// Members
 	private int m_size;
 	private String m_algorithm;
+	//TODO - remove this member:
 	private ArrayList<Cell> m_cellsList;
 	private Algorithm m_searcher;
 	private String m_typeString;
@@ -42,7 +43,7 @@ public class Map
 		}
 		else
 		{
-			//m_searcher = new AStar(this);
+			m_searcher = new AStar(this);
 		}
 	}
 
@@ -81,19 +82,23 @@ public class Map
 		}
 		if ((fromX - toX == 1) && (fromY - toY == 1))
 		{
-			return (getCell(fromX - 1, fromY).getType() != Cell.WATER) && (getCell(fromX, fromY - 1).getType() != Cell.WATER);
+			return (getCell(fromX - 1, fromY).getType() != Cell.WATER) &&
+					(getCell(fromX, fromY - 1).getType() != Cell.WATER);
 		}
 		if ((fromX - toX == 1) && (fromY - toY == -1))
 		{
-			return (getCell(fromX - 1, fromY).getType() != Cell.WATER) && (getCell(fromX, fromY + 1).getType() != Cell.WATER);
+			return (getCell(fromX - 1, fromY).getType() != Cell.WATER) &&
+					(getCell(fromX, fromY + 1).getType() != Cell.WATER);
 		}
 		if ((fromX - toX == -1) && (fromY - toY == -1))
 		{
-			return (getCell(fromX + 1, fromY).getType() != Cell.WATER) && (getCell(fromX, fromY + 1).getType() != Cell.WATER);
+			return (getCell(fromX + 1, fromY).getType() != Cell.WATER) &&
+					(getCell(fromX, fromY + 1).getType() != Cell.WATER);
 		}
 		if ((fromX - toX == -1) && (fromY - toY == 1))
 		{
-			return (getCell(fromX + 1, fromY).getType() != Cell.WATER) && (getCell(fromX, fromY - 1).getType() != Cell.WATER);
+			return (getCell(fromX + 1, fromY).getType() != Cell.WATER) &&
+					(getCell(fromX, fromY - 1).getType() != Cell.WATER);
 		}
 		return true;
 	}
@@ -107,9 +112,6 @@ public class Map
 		}
 		return new Cell(new Point(xVal, yVal), m_typeString.charAt((xVal * m_size) + yVal));
 	}
-
-	// Getter
-	public ArrayList<Cell> getCellsList() { return m_cellsList; }
 
 	// Getter
 	public int getSize() { return m_size; }

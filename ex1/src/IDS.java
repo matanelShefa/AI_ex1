@@ -29,13 +29,12 @@ public class IDS extends Searcher
 		m_cost = 0;
 	}
 
+	@Override
 	public void search()
 	{
 		Cell goal;
 		for (int currentDepth = 0; currentDepth < m_maxDepth; currentDepth++)
 		{
-			// TODO - REMOVE
-			System.out.println("========== Depth: " + currentDepth + " ==========");
 			goal = ids(m_root, currentDepth);
 			if (goal != null)
 			{
@@ -62,8 +61,6 @@ public class IDS extends Searcher
 			{
 				if ((m_map.isValidMove(node, child)) && (!m_seenList.contains(child)))
 				{
-					// TODO - REMOVE
-					System.out.println("Depth: " + depth + ", " + node + " ===> " + child);
 					m_seenList.add(child);
 					currentSolution = m_solution;
 					currentCost = m_cost;
