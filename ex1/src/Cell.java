@@ -39,8 +39,11 @@ public class Cell
 			case HILL:
 				m_cost = 10;
 				break;
-			default:
+			case GOAL:
 				m_cost = 0;
+				break;
+			default:
+				m_cost = (int)Double.POSITIVE_INFINITY;
 		}
 	}
 
@@ -77,6 +80,9 @@ public class Cell
 	// Getter
 	public int getCost() { return m_cost; }
 
+	// Getter
+	public Cell getParent() { return m_parent; }
+
 	// Setter
 	public void setType(char type) { m_type = type; }
 
@@ -86,7 +92,7 @@ public class Cell
 	// Setter
 	public void setCost(int cost) { m_cost = cost; }
 
-	//Setter
+	// Setter
 	public void setParent(Cell parent) { m_parent = parent; }
 
 	// Setter

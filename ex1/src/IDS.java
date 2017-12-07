@@ -8,10 +8,8 @@ import java.util.Iterator;
  */
 public class IDS extends Searcher
 {
-	// Finals
-	public String NO_PATH = "no path";
-
 	// Members
+	private String NO_PATH = "no path";
 	private int m_maxDepth;
 	private Cell m_root;
 	private String m_solution;
@@ -37,7 +35,7 @@ public class IDS extends Searcher
 		for (int currentDepth = 0; currentDepth < m_maxDepth; currentDepth++)
 		{
 			//TODO - REMOVE!
-			System.out.println("===== Depth: " + currentDepth + " =====");
+			//System.out.println("===== Depth: " + currentDepth + " =====");
 			goal = ids(m_root, currentDepth);
 			if (goal != null)
 			{
