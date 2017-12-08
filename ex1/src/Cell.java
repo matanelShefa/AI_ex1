@@ -27,24 +27,7 @@ public class Cell
 	{
 		m_point = point;
 		m_type = type;
-
-		switch (m_type)
-		{
-			case ROAD:
-				m_cost = 1;
-				break;
-			case DESERT:
-				m_cost = 3;
-				break;
-			case HILL:
-				m_cost = 10;
-				break;
-			case GOAL:
-				m_cost = 0;
-				break;
-			default:
-				m_cost = (int)Double.POSITIVE_INFINITY;
-		}
+		m_cost = typeToCost(m_type);
 	}
 
 	@Override
@@ -82,6 +65,24 @@ public class Cell
 
 	// Getter
 	public Cell getParent() { return m_parent; }
+
+	//
+	public int typeToCost(char type)
+	{
+		switch (type)
+		{
+			case ROAD:
+				return 1;
+			case DESERT:
+				return 3;
+			case HILL:
+				return 10;
+			case GOAL:
+				return 0;
+			default:
+				return 0; //(int)Double.POSITIVE_INFINITY;
+		}
+	}
 
 	// Setter
 	public void setType(char type) { m_type = type; }

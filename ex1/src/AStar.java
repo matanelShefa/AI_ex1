@@ -38,65 +38,61 @@ public class AStar extends Searcher
 	public void search()
 	{
 		m_priorityQueue.add(m_root);
-		//System.out.println(m_root + " ===> ENTERED TO LIST");
-		for (int i = 0; !m_priorityQueue.isEmpty() && i < (m_size * m_size * MAX_COST); i++)
+		while (!m_priorityQueue.isEmpty())
 		{
-			//1.
 			Cell node = m_priorityQueue.poll();
-			//2.
+			if ((node.getCost()) > (m_size * m_size * MAX_COST))
+			{
+				break;
+			}
+			//System.out.println("node.getCost() = " + node.getCost());
 			if (node.getType() == Cell.GOAL)
 			{
-				System.out.println("GOAL FOUND!! HEYDAD!!");
-				printToOutput(backTraceSolution(node));
+				//TODO - REMOVE!
+				//System.out.println("GOAL FOUND!! HEYDAD!!");
+				backTraceSolution(node);
+				printToOutput(m_solution + " " + m_cost);
 				return;
 			}
-			//3.
 			if (m_priorityQueue.contains(node))
 			{
 				continue;
 			}
-			//4. 5.
 			ArrayList<Cell> childrenList = m_map.addChildrenList(node);
-
-			//6.
 			for (Cell child : childrenList)
 			{
-
 				if ((m_map.isValidMove(node, child)) && (!m_priorityQueue.contains(child)))
 				{
-					//System.out.println(node + " ===> " + child);
-					//System.out.println(child + " ===> ENTERED TO LIST");
-					//1.
 					child.setCost(child.getCost() + node.getCost());
-					//2.
 					child.setParent(node);
-					//3.
 					child.setHeuristic(heuristic(child));
 					m_priorityQueue.add(child);
 				}
 			}
 			m_priorityQueue.remove(node);
-			//System.out.println(node + " ===> REMOVED FROM LIST");
 		}
-		System.out.println("NOT FOUND!");
+		//TODO - REMOVE!
+		//System.out.println("NOT FOUND!");
 		printToOutput(NO_PATH);
 	}
 
+	// Backtrace the path from the goal to the start.
 	private String backTraceSolution(Cell node)
 	{
-		String solution = "";
 		// The start cell - return.
 		if (node.getType() == Cell.START)
 		{
-			return solution;
+			return m_solution;
 		}
 		// Not the start cell - go to the parent.
 		else
 		{
-			solution = backTraceSolution(node.getParent());
+			m_solution = backTraceSolution(node.getParent());
 		}
-		// Print
-		return solution += addStep(node.getParent(), node);
+		// Add the node cost to the path cost.
+		m_cost += node.typeToCost(node.getType());
+		// Add the step to the solution string.
+		return m_solution += addStep(node.getParent(), node);
 	}
 
 	// Heuristic on this cell. Calculates the

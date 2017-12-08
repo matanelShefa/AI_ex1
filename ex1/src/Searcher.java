@@ -49,6 +49,8 @@ public abstract class Searcher implements Algorithm
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(OUTPUT_FILE), "utf-8"))) {
 			writer.write(stringToPrint);
+			//TODO - remove!
+			System.out.println(stringToPrint);
 		} catch (IOException e)
 		{
 			e.printStackTrace();
