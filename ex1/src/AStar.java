@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
@@ -28,8 +29,26 @@ public class AStar extends Searcher
 		m_map = map;
 		m_size = map.getSize();
 		m_root = map.getCell(0, 0);
-		m_priorityQueue = new PriorityQueue<Cell>((node1, node2)->
-				(heuristic(node1) + node1.getCost() - heuristic(node2) - node2.getCost()));
+		m_priorityQueue = new PriorityQueue<Cell>(new Comparator<Cell>()
+		{
+			@Override
+			public int compare(Cell node1, Cell node2)
+			{
+				int priority = heuristic(node1) + node1.getCost() - heuristic(node2) - node2.getCost();
+				if (priority != 0)
+				{
+					return priority;
+				}
+				return node1.getCreationTime() - node2.getCreationTime();
+			}
+		});
+
+		//m_priorityQueue = new PriorityQueue<Cell>((node1, node2)-> (heuristic(node1) + node1.getCost() - heuristic(node2) - node2.getCost()));
+		/*
+				((heuristic(node1) + node1.getCost() - heuristic(node2) - node2.getCost()) == 0) ?
+				(heuristic(node1) + node1.getCost() - heuristic(node2) - node2.getCost()) :
+				(int)(node1.getCreationTime() - node2.getCreationTime()));
+		*/ //TODO - REMOVE
 		m_solution = "";
 		m_cost = 0;
 	}
@@ -40,6 +59,13 @@ public class AStar extends Searcher
 		m_priorityQueue.add(m_root);
 		while (!m_priorityQueue.isEmpty())
 		{
+			//TODO - remove the queue print
+			System.out.println("====================== Q U E U E ======================");
+			for (Cell node : m_priorityQueue)
+			{
+				System.out.print("{ node: " + node + ", heuristic = " + heuristic(node) + ", cost = " + node.getCost() + ", priority: " + (heuristic(node) + node.getCost()) + " }\n");
+			}
+
 			Cell node = m_priorityQueue.poll();
 			if ((node.getCost()) > (m_size * m_size * MAX_COST))
 			{
@@ -69,7 +95,6 @@ public class AStar extends Searcher
 					m_priorityQueue.add(child);
 				}
 			}
-			m_priorityQueue.remove(node);
 		}
 		//TODO - REMOVE!
 		//System.out.println("NOT FOUND!");

@@ -3,20 +3,23 @@ import java.util.HashSet;
 
 /**
  * Created by Matanel on 29/11/2017.
+ * This class represents the 'world' of the search problem.
+ * It creates from the data in the file, and use the specified algorithm to search for the goal.
  */
-
 public class Map
 {
-	public static final String IDS = "IDS";
+	// Finals
+	private static final String IDS = "IDS";
 	private static final int offsetArray[][] = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1}, { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 } };
 
 	// Members
 	private int m_size;
 	private String m_algorithm;
 	//TODO - remove this member:
-	private ArrayList<Cell> m_cellsList;
+	//private ArrayList<Cell> m_cellsList;
 	private Algorithm m_searcher;
 	private String m_typeString;
+	private int m_numberOfNodes; //TODO
 
 	// Constructor
 	Map(String inputFile)
@@ -26,7 +29,8 @@ public class Map
 		m_algorithm = parser.getAlgorithm();
 		m_size = parser.getSize();
 		m_typeString = parser.getTypeString();
-
+		m_numberOfNodes = 0; //TODO
+/*
 		// Create the map.
 		m_cellsList = new ArrayList<>();
 		for (int i = 0; i < m_size; i++)
@@ -36,7 +40,7 @@ public class Map
 				m_cellsList.add(new Cell(new Point(i, j), m_typeString.charAt((i * m_size) + j)));
 			}
 		}
-
+*/
 		// Create the searcher according to the input.
 		if (m_algorithm.equals(IDS))
 		{
@@ -59,8 +63,10 @@ public class Map
 			child = getCell(cell.getXVal() + offset[0], cell.getYVal() + offset[1]);
 			if (child != null)
 			{
+				child.setCreationTime(m_numberOfNodes); //TODO
 				childrenList.add(child);
 			}
+			m_numberOfNodes++; //TODO
 		}
 		return childrenList;
 	}
@@ -71,6 +77,7 @@ public class Map
 		m_searcher.search();
 	}
 
+	// Return true if this move is a valid move, else - false.
 	public boolean isValidMove(Cell from, Cell to)
 	{
 		int fromX = from.getXVal();
@@ -106,35 +113,6 @@ public class Map
 				return (getType(fromX + 1, fromY) != Cell.WATER) && (getType(fromX, fromY - 1) != Cell.WATER);
 			}
 		}
-
-/*		if ((fromX - toX == 1))
-		{
-			if (fromY - toY == 1)
-			{
-				return (getCell(fromX - 1, fromY).getType() != Cell.WATER) &&
-						(getCell(fromX, fromY - 1).getType() != Cell.WATER);
-			}
-			else if (fromY - toY == -1)
-			{
-				return (getCell(fromX - 1, fromY).getType() != Cell.WATER) &&
-						(getCell(fromX, fromY + 1).getType() != Cell.WATER);
-			}
-		}
-
-		if (fromX - toX == -1)
-		{
-			if (fromY - toY == -1)
-			{
-				return (getCell(fromX + 1, fromY).getType() != Cell.WATER) &&
-						(getCell(fromX, fromY + 1).getType() != Cell.WATER);
-			}
-			else if ((fromY - toY == 1))
-			{
-				return (getCell(fromX + 1, fromY).getType() != Cell.WATER) &&
-						(getCell(fromX, fromY - 1).getType() != Cell.WATER);
-			}
-		}
-*/
 		return true;
 	}
 
@@ -145,7 +123,7 @@ public class Map
 		{
 			return Cell.UNKNOWN_TYPE;
 		}
-		return m_cellsList.get((xVal * m_size) + yVal).getType();
+		return m_typeString.charAt((xVal * m_size) + yVal);
 	}
 
 	// Generating a new cell according to it's type & values.
@@ -160,7 +138,7 @@ public class Map
 
 	// Getter
 	public int getSize() { return m_size; }
-
+/*
 	//TODO - REMOVE THIS METHOD!! NO OPTION TO PRINT THE MAP!
 	// Print the map
 	public String toString()
@@ -176,4 +154,5 @@ public class Map
 		}
 		return mapToPrint;
 	}
+*/
 }

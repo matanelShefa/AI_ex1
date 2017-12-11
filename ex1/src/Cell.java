@@ -19,6 +19,7 @@ public class Cell
 	private char m_type;
 	private int m_cost;
 	private Cell m_parent;
+	private int m_creationTime; //TODO
 	private int m_heuristic;
 	private ArrayList<Cell> m_childrenList;
 
@@ -66,7 +67,10 @@ public class Cell
 	// Getter
 	public Cell getParent() { return m_parent; }
 
-	//
+	// Getter //TODO
+	public int getCreationTime() { return m_creationTime; }
+
+	// Return the real cost for each cell type.
 	public int typeToCost(char type)
 	{
 		switch (type)
@@ -98,4 +102,7 @@ public class Cell
 
 	// Setter
 	public void setHeuristic(int heuristicValue) { m_heuristic = heuristicValue; }
+
+	// Setter //TODO
+	public void setCreationTime(int creationTime) { m_creationTime = creationTime; }
 }
