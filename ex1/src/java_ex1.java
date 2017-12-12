@@ -5,8 +5,7 @@
  */
 public class java_ex1
 {
-	//private static final String INPUT_FILE = "input.txt";
-	private static final String INPUT_FILE = "Test3.txt"; //TODO
+	private static final String INPUT_FILE = "input.txt";
 
 	/**
 	 * The main function of the program.
