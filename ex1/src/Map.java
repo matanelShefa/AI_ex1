@@ -10,39 +10,30 @@ public class Map
 {
 	// Finals
 	private static final String IDS = "IDS";
+	// An offset array. Uses to create the children list for each node.
 	private static final int offsetArray[][] = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1}, { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 } };
 
 	// Members
 	private int m_size;
-	private String m_algorithm;
-	//TODO - remove this member:
-	//private ArrayList<Cell> m_cellsList;
 	private Algorithm m_searcher;
 	private String m_typeString;
-	private int m_numberOfNodes; //TODO
+	private int m_numberOfNodes;
 
-	// Constructor
+	/**
+	 * Constructor. Creates the type-string and the algorithm name from the file.
+	 * @param inputFile The name of the input file to read from.
+	 */
 	Map(String inputFile)
 	{
 		// Get the information from the parser
 		Parser parser = new Parser(inputFile);
-		m_algorithm = parser.getAlgorithm();
+		String algorithm = parser.getAlgorithm();
 		m_size = parser.getSize();
 		m_typeString = parser.getTypeString();
-		m_numberOfNodes = 0; //TODO
-/*
-		// Create the map.
-		m_cellsList = new ArrayList<>();
-		for (int i = 0; i < m_size; i++)
-		{
-			for (int j = 0; j < m_size; j++)
-			{
-				m_cellsList.add(new Cell(new Point(i, j), m_typeString.charAt((i * m_size) + j)));
-			}
-		}
-*/
+		m_numberOfNodes = 0;
+
 		// Create the searcher according to the input.
-		if (m_algorithm.equals(IDS))
+		if (algorithm.equals(IDS))
 		{
 			m_searcher = new IDS(this);
 		}
@@ -52,32 +43,39 @@ public class Map
 		}
 	}
 
-	// Create the children list for the cells.
+	/**
+	 * Create the children list for the cells.
+	 * @param cell The cell to create the children list to.
+	 * @return The children list.
+	 */
 	public ArrayList<Cell> addChildrenList(Cell cell)
 	{
 		ArrayList<Cell> childrenList = new ArrayList<>();
 		Cell child;
-
+		// Go over the offset array and get all of the option to move to.
 		for (int offset[] : offsetArray)
 		{
 			child = getCell(cell.getXVal() + offset[0], cell.getYVal() + offset[1]);
+			// If this is a valid cell - add it to the children list.
 			if (child != null)
 			{
-				child.setCreationTime(m_numberOfNodes); //TODO
+				child.setCreationTime(m_numberOfNodes);
 				childrenList.add(child);
 			}
-			m_numberOfNodes++; //TODO
+			m_numberOfNodes++;
 		}
 		return childrenList;
 	}
 
-	// Search for the goal, use the algorithm the input asked to.
-	public void search()
-	{
-		m_searcher.search();
-	}
+	//Search for the goal, use the algorithm the input file asked to.
+	public void search() { m_searcher.search(); }
 
-	// Return true if this move is a valid move, else - false.
+	/**
+	 * Check if going from 'from' to 'to' is a valid move.
+	 * @param from The source.
+	 * @param to The destination.
+	 * @return If this move is a valid move - true , else - false.
+	 */
 	public boolean isValidMove(Cell from, Cell to)
 	{
 		int fromX = from.getXVal();
@@ -85,11 +83,13 @@ public class Map
 		int toX = to.getXVal();
 		int toY = to.getYVal();
 
+		// If the 'to' cell is water - return false.
 		if (to.getType() == Cell.WATER)
 		{
 			return false;
 		}
 
+		// Check the move according to the coordinates. If it's diagonally to water - return false.
 		if ((fromX - toX == 1))
 		{
 			if (fromY - toY == 1)
@@ -116,9 +116,15 @@ public class Map
 		return true;
 	}
 
-	// Getter
+	/**
+	 * Getter.
+	 * @param xVal The x value.
+	 * @param yVal The y value.
+	 * @return The cell type.
+	 */
 	public char getType(int xVal, int yVal)
 	{
+		// Not a valid cell - return unknown type.
 		if ((xVal < 0) || (yVal < 0) || (xVal >= m_size) || (yVal >= m_size))
 		{
 			return Cell.UNKNOWN_TYPE;
@@ -126,9 +132,15 @@ public class Map
 		return m_typeString.charAt((xVal * m_size) + yVal);
 	}
 
-	// Generating a new cell according to it's type & values.
+	/**
+	 * Generating a new cell according to it's type & values.
+	 * @param xVal The x value.
+	 * @param yVal The y value.
+	 * @return A new cell.
+	 */
 	public Cell getCell(int xVal, int yVal)
 	{
+		// Not a valid cell - return null.
 		if ((xVal < 0) || (yVal < 0) || (xVal >= m_size) || (yVal >= m_size))
 		{
 			return null;
@@ -136,23 +148,9 @@ public class Map
 		return new Cell(new Point(xVal, yVal), m_typeString.charAt((xVal * m_size) + yVal));
 	}
 
-	// Getter
+	/**
+	 * Getter.
+	 * @return The map size.
+	 */
 	public int getSize() { return m_size; }
-/*
-	//TODO - REMOVE THIS METHOD!! NO OPTION TO PRINT THE MAP!
-	// Print the map
-	public String toString()
-	{
-		String mapToPrint = "Algorithm : " + m_algorithm + "\n" + "Size : " + m_size + "\n";
-		for (int i = 0; i < m_size; i++)
-		{
-			for (int j = 0; j < m_size; j++)
-			{
-				mapToPrint += m_cellsList.get(j + (m_size * i)).toString();
-			}
-			mapToPrint += '\n';
-		}
-		return mapToPrint;
-	}
-*/
 }
